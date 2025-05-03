@@ -91,6 +91,4 @@ Or... **AI Parasite X**. You pick the aesthetic — sci-fi, hacker-core, or myst
 - Add **mood-based response modulation**  
 - Generate your **digital journal** based on chats  
 
----
 
-Wanna start with a code template for Week 1 or an architecture sketch?
