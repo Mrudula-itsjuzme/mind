@@ -4,21 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/ca
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Avatar, AvatarFallback } from "@/app/components/ui/avatar";
-import { Badge } from "@/app/components/ui/badge";
 import {
   Send,
   Volume2,
   Mic,
   Sparkles,
-  Phone,
-  MessageSquare,
   XCircle,
   ChevronRight,
-  ArrowRight,
-  Loader2
 } from "lucide-react";
 import { chatbotService } from "@/lib/services/chatbot-api";
-import { db } from "@/lib/database/db";
 import {
   THERAPY_CATEGORIES,
   PERSONALITY_OPTIONS,
@@ -40,7 +34,6 @@ export function AIChatbot() {
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || !selectedCategory || !selectedPersonality) return;
@@ -86,27 +79,29 @@ export function AIChatbot() {
 
   if (!selectedCategory) {
     return (
-      <div className="space-y-12 animate-in fade-in duration-700">
-        <div className="px-2">
-          <h2 className="text-3xl font-bold text-[#FDF5E6] serif italic tracking-tight mb-2">Initiate <span className="text-[#E5C07B]">Sanctuary</span></h2>
-          <p className="text-[10px] font-bold text-[#FDF5E6]/40 uppercase tracking-[0.3em]">Select your therapeutic resonance</p>
+      <div className="space-y-12 animate-in fade-in duration-1000">
+        <div className="px-4 space-y-2">
+          <h2 className="text-4xl font-bold text-[#FDF5E6] serif italic tracking-tight mb-2">Initiate <span className="text-[#E5C07B] drop-shadow-[0_0_10px_rgba(229,192,123,0.2)]">Sanctuary</span></h2>
+          <p className="text-[10px] font-black text-[#E5C07B]/30 uppercase tracking-[0.5em]">Select your therapeutic resonance</p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 px-2">
           {THERAPY_CATEGORIES.map((category) => (
             <Card
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className="border-0 bg-[#3D181C] ring-1 ring-[#E5C07B]/10 rounded-2xl overflow-hidden shadow-none group hover:ring-[#E5C07B]/30 hover:bg-[#E5C07B]/5 transition-all cursor-pointer"
+              key={category.name}
+              onClick={() => setSelectedCategory(category.name)}
+              className="border-0 bg-[#120A0B] ring-1 ring-[#E5C07B]/10 rounded-[2.5rem] overflow-hidden shadow-3xl group hover:ring-[#E5C07B]/40 hover:bg-[#1A1112] transition-all duration-700 cursor-pointer relative"
             >
-              <CardContent className="p-8">
-                <div className="h-14 w-14 rounded-2xl bg-[#E5C07B]/5 mb-6 flex items-center justify-center ring-1 ring-[#E5C07B]/10 group-hover:ring-[#E5C07B]/30 transition-all">
-                  <span className="text-2xl">{category.icon}</span>
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#E5C07B]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+              <div className="absolute inset-0 bg-noise opacity-[0.01] pointer-events-none" />
+              <CardContent className="p-10 relative z-10">
+                <div className="h-20 w-20 rounded-[1.5rem] bg-[#1A1112] mb-10 flex items-center justify-center ring-1 ring-[#E5C07B]/20 group-hover:ring-[#E5C07B]/40 group-hover:scale-110 transition-all duration-700 shadow-2xl">
+                  <category.icon className="h-8 w-8 text-[#E5C07B] drop-shadow-[0_0_15px_rgba(229,192,123,0.3)]" />
                 </div>
-                <h3 className="text-xl font-bold text-[#FDF5E6] serif italic mb-3 group-hover:text-[#E5C07B] transition-colors">{category.label}</h3>
-                <p className="text-[11px] text-[#FDF5E6]/40 leading-relaxed font-medium mb-6 italic">{category.description}</p>
-                <div className="flex items-center gap-2 text-[9px] font-black text-[#E5C07B] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-500">
-                  Resonate Now <ChevronRight className="h-3 w-3" />
+                <h3 className="text-2xl font-bold text-[#FDF5E6] serif italic mb-4 group-hover:text-[#E5C07B] transition-all duration-700">{category.name}</h3>
+                <p className="text-sm text-[#FDF5E6]/40 leading-relaxed font-medium mb-10 italic serif group-hover:text-[#FDF5E6]/60 transition-colors">{category.description}</p>
+                <div className="flex items-center gap-4 text-[10px] font-black text-[#E5C07B] uppercase tracking-[0.4em] opacity-0 group-hover:opacity-100 transition-all duration-700 hover:tracking-[0.5em]">
+                  Resonate Now <ChevronRight className="h-4 w-4" />
                 </div>
               </CardContent>
             </Card>
@@ -118,36 +113,39 @@ export function AIChatbot() {
 
   if (!selectedPersonality) {
     return (
-      <div className="space-y-12 animate-in fade-in duration-700">
-        <div className="px-2">
+      <div className="space-y-12 animate-in fade-in duration-1000">
+        <div className="px-4">
           <Button
             variant="ghost"
             onClick={() => setSelectedCategory(null)}
-            className="text-[#E5C07B] hover:bg-white/5 mb-6 pl-0 font-bold uppercase tracking-[0.2em] text-[10px]"
+            className="text-[#E5C07B] hover:bg-[#E5C07B]/5 mb-10 pl-0 font-black uppercase tracking-[0.4em] text-[10px] transition-all hover:pl-2"
           >
-            ← Adjust Resonance
+            <ChevronRight className="h-4 w-4 mr-3 rotate-180" /> Adjust Resonance
           </Button>
-          <h2 className="text-3xl font-bold text-[#FDF5E6] serif italic tracking-tight mb-2">Architect of <span className="text-[#E5C07B]">Presence</span></h2>
-          <p className="text-[10px] font-bold text-[#FDF5E6]/40 uppercase tracking-[0.3em]">Choose the guide for your sequence</p>
+          <div className="space-y-2">
+            <h2 className="text-4xl font-bold text-[#FDF5E6] serif italic tracking-tight mb-2">Architect of <span className="text-[#E5C07B] drop-shadow-[0_0_10px_rgba(229,192,123,0.2)]">Presence</span></h2>
+            <p className="text-[10px] font-black text-[#E5C07B]/30 uppercase tracking-[0.5em]">Choose the guide for your sequence</p>
+          </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 px-2">
           {PERSONALITY_OPTIONS.map((personality) => (
             <Card
-              key={personality.id}
-              onClick={() => setSelectedPersonality(personality.id)}
-              className="border-0 bg-[#3D181C] ring-1 ring-[#E5C07B]/10 rounded-2xl overflow-hidden shadow-none group hover:ring-[#E5C07B]/30 hover:bg-[#E5C07B]/5 transition-all cursor-pointer"
+              key={personality.name}
+              onClick={() => setSelectedPersonality(personality.name)}
+              className="border-0 bg-[#120A0B] ring-1 ring-[#E5C07B]/10 rounded-[2.5rem] overflow-hidden shadow-3xl group hover:ring-[#E5C07B]/40 hover:bg-[#1A1112] transition-all duration-700 cursor-pointer relative"
             >
-              <CardHeader className="p-8 pb-4">
-                <Avatar className="h-16 w-16 mb-2 ring-2 ring-[#E5C07B]/10 group-hover:ring-[#E5C07B]/30 transition-all shadow-xl">
-                  <AvatarFallback className="bg-[#1A1112] text-[#E5C07B] font-bold serif text-xl">{personality.label[0]}</AvatarFallback>
+              <div className="absolute inset-0 bg-noise opacity-[0.01] pointer-events-none" />
+              <CardHeader className="p-10 pb-6 relative z-10">
+                <Avatar className="h-24 w-24 mb-6 ring-4 ring-[#E5C07B]/10 group-hover:ring-[#E5C07B]/40 transition-all duration-700 shadow-4xl scale-110 group-hover:scale-100">
+                  <AvatarFallback className="bg-[#1A1112] text-[#E5C07B] font-black serif italic text-3xl">{personality.name[0]}</AvatarFallback>
                 </Avatar>
-                <CardTitle className="text-xl font-bold text-[#FDF5E6] serif italic group-hover:text-[#E5C07B] transition-colors">{personality.label}</CardTitle>
+                <CardTitle className="text-2xl font-bold text-[#FDF5E6] serif italic group-hover:text-[#E5C07B] transition-all duration-700">{personality.name}</CardTitle>
               </CardHeader>
-              <CardContent className="p-8 pt-0">
-                <p className="text-[10px] text-[#FDF5E6]/40 leading-relaxed font-medium italic mb-6">"{personality.description}"</p>
-                <div className="bg-[#2D1417]/40 rounded-xl p-3 ring-1 ring-white/5 opacity-0 group-hover:opacity-100 transition-all">
-                  <span className="text-[8px] font-black text-[#E5C07B] uppercase tracking-widest">Select Presence</span>
+              <CardContent className="p-10 pt-0 relative z-10">
+                <p className="text-sm text-[#FDF5E6]/40 leading-relaxed font-medium italic serif mb-10 group-hover:text-[#FDF5E6]/60 transition-colors">"{personality.emoji} Guide"</p>
+                <div className="bg-[#E5C07B]/5 rounded-2xl p-5 ring-1 ring-[#E5C07B]/10 opacity-0 group-hover:opacity-100 transition-all duration-700 shadow-inner">
+                  <span className="text-[9px] font-black text-[#E5C07B] uppercase tracking-[0.4em]">Select Presence</span>
                 </div>
               </CardContent>
             </Card>
@@ -158,25 +156,29 @@ export function AIChatbot() {
   }
 
   return (
-    <div className="h-[calc(100vh-12rem)] flex flex-col animate-in fade-in duration-700">
-      <Card className="flex-1 flex flex-col border-0 bg-[#3D181C] ring-1 ring-[#E5C07B]/10 rounded-2xl overflow-hidden shadow-none relative">
-        <div className="absolute top-0 right-0 p-12 opacity-[0.02] rotate-12 select-none pointer-events-none">
-          <Sparkles className="h-64 w-64 text-[#E5C07B]" />
+    <div className="h-[calc(100vh-14rem)] flex flex-col animate-in fade-in duration-1000 px-2">
+      <Card className="flex-1 flex flex-col border-0 bg-[#120A0B] ring-1 ring-[#E5C07B]/10 rounded-[3rem] overflow-hidden shadow-4xl relative">
+        <div className="absolute top-0 right-0 p-24 opacity-[0.03] rotate-12 select-none pointer-events-none">
+          <Sparkles className="h-[500px] w-[500px] text-[#E5C07B]" />
         </div>
+        <div className="absolute inset-0 bg-noise opacity-[0.01] pointer-events-none" />
 
-        <CardHeader className="p-8 border-b border-[#E5C07B]/5 bg-[#2D1417]/20 flex flex-row items-center justify-between z-10">
-          <div className="flex items-center gap-4">
-            <Avatar className="h-12 w-12 ring-2 ring-[#E5C07B]/20 shadow-xl">
-              <AvatarFallback className="bg-[#E5C07B] text-[#1A1112] font-bold serif text-lg">{selectedPersonality[0].toUpperCase()}</AvatarFallback>
+        <CardHeader className="p-10 border-b border-white/5 bg-[#1A1112]/40 backdrop-blur-md flex flex-row items-center justify-between z-20">
+          <div className="flex items-center gap-6">
+            <Avatar className="h-16 w-16 ring-4 ring-[#E5C07B]/10 shadow-4xl group-hover:scale-110 transition-transform duration-700">
+              <AvatarFallback className="bg-[#E5C07B] text-[#120A0B] font-black serif italic text-2xl">{selectedPersonality[0].toUpperCase()}</AvatarFallback>
             </Avatar>
-            <div>
-              <CardTitle className="text-xl font-bold text-[#FDF5E6] serif italic">{selectedPersonality}</CardTitle>
-              <p className="text-[9px] font-bold text-[#E5C07B]/60 uppercase tracking-[0.2em] mt-1">{selectedCategory} Resonance</p>
+            <div className="space-y-1">
+              <CardTitle className="text-3xl font-bold text-[#FDF5E6] serif italic tracking-tight drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">{selectedPersonality}</CardTitle>
+              <div className="flex items-center gap-4">
+                <div className="h-2 w-2 bg-[#E5C07B] rounded-full animate-pulse shadow-[0_0_10px_#E5C07B]" />
+                <p className="text-[10px] font-black text-[#E5C07B]/60 uppercase tracking-[0.4em] italic">{selectedCategory} Resonance Activated</p>
+              </div>
             </div>
           </div>
-          <div className="flex gap-2">
-            <Button variant="ghost" size="icon" className="h-11 w-11 rounded-xl bg-white/5 text-[#E5C07B] hover:bg-[#E5C07B]/10">
-              <Volume2 className="h-5 w-5" />
+          <div className="flex gap-4">
+            <Button variant="ghost" size="icon" className="h-14 w-14 rounded-2xl bg-white/5 text-[#E5C07B] hover:bg-[#E5C07B]/10 border border-white/5 transition-all">
+              <Volume2 className="h-6 w-6" />
             </Button>
             <Button
               variant="ghost"
@@ -185,64 +187,73 @@ export function AIChatbot() {
                 setSelectedCategory(null);
                 setSelectedPersonality(null);
               }}
-              className="h-11 w-11 rounded-xl bg-white/5 text-red-500/60 hover:text-red-500 hover:bg-red-500/5"
+              className="h-14 w-14 rounded-2xl bg-white/5 text-red-500/40 hover:text-red-500 hover:bg-red-500/10 border border-white/5 transition-all"
             >
-              <XCircle className="h-5 w-5" />
+              <XCircle className="h-6 w-6" />
             </Button>
           </div>
         </CardHeader>
 
-        <CardContent className="flex-1 overflow-y-auto p-10 space-y-10 z-10 scrollbar-thin scrollbar-thumb-[#E5C07B]/10">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
-            >
-              <div className={`flex gap-4 max-w-[80%] ${message.sender === "user" ? "flex-row-reverse" : "flex-row"}`}>
-                <Avatar className={`h-10 w-10 ring-1 ring-[#E5C07B]/10 shadow-lg ${message.sender === "user" ? "opacity-0" : ""}`}>
-                  <AvatarFallback className="bg-[#1A1112] text-[#E5C07B] text-xs font-bold serif">AI</AvatarFallback>
-                </Avatar>
-                <div className={`p-6 rounded-2xl leading-relaxed text-sm shadow-inner transition-all duration-500 ${message.sender === "user"
-                    ? "bg-[#E5C07B] text-[#1A1112] rounded-tr-none font-bold"
-                    : "bg-[#1A1112] text-[#FDF5E6]/80 rounded-tl-none ring-1 ring-white/5 italic font-medium"
-                  }`}>
-                  {message.text}
+        <CardContent className="flex-1 overflow-y-auto p-12 space-y-12 z-10 custom-scrollbar relative">
+          <AnimatePresence mode="popLayout">
+            {messages.map((message) => (
+              <motion.div
+                key={message.id}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                layout
+                className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
+              >
+                <div className={`flex gap-6 max-w-[75%] ${message.sender === "user" ? "flex-row-reverse" : "flex-row"}`}>
+                  <Avatar className={`h-12 w-12 ring-2 ring-[#E5C07B]/10 shadow-2xl transition-all duration-700 ${message.sender === "user" ? "opacity-0 scale-0" : "scale-100"}`}>
+                    <AvatarFallback className="bg-[#1A1112] text-[#E5C07B] text-sm font-black italic serif">AI</AvatarFallback>
+                  </Avatar>
+                  <div className={`p-8 rounded-[2rem] leading-relaxed text-base shadow-4xl transition-all duration-700 backdrop-blur-sm ${message.sender === "user"
+                    ? "bg-gradient-to-br from-[#E5C07B] to-[#d4b16a] text-[#120A0B] rounded-tr-none font-black shadow-[0_20px_40px_rgba(229,192,123,0.2)]"
+                    : "bg-[#1A1112]/80 text-[#FDF5E6]/80 rounded-tl-none ring-1 ring-white/10 italic font-medium serif"
+                    }`}>
+                    {message.text}
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              </motion.div>
+            ))}
+          </AnimatePresence>
           {isTyping && (
-            <div className="flex justify-start">
-              <div className="bg-[#1A1112]/40 rounded-2xl rounded-tl-none p-5 ring-1 ring-[#E5C07B]/5">
-                <div className="flex gap-2">
-                  <span className="h-1.5 w-1.5 bg-[#E5C07B]/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                  <span className="h-1.5 w-1.5 bg-[#E5C07B]/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                  <span className="h-1.5 w-1.5 bg-[#E5C07B]/40 rounded-full animate-bounce" />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
+              <div className="bg-[#1A1112]/60 rounded-3xl rounded-tl-none p-6 ring-1 ring-[#E5C07B]/10 shadow-2xl backdrop-blur-md">
+                <div className="flex gap-3">
+                  <span className="h-2 w-2 bg-[#E5C07B] rounded-full animate-bounce shadow-[0_0_8px_#E5C07B] [animation-delay:-0.3s]" />
+                  <span className="h-2 w-2 bg-[#E5C07B] rounded-full animate-bounce shadow-[0_0_8px_#E5C07B] [animation-delay:-0.15s]" />
+                  <span className="h-2 w-2 bg-[#E5C07B] rounded-full animate-bounce shadow-[0_0_8px_#E5C07B]" />
                 </div>
               </div>
-            </div>
+            </motion.div>
           )}
         </CardContent>
 
-        <div className="p-8 bg-[#2D1417]/40 border-t border-[#E5C07B]/5 flex gap-4 z-10">
-          <div className="flex-1 relative">
+        <div className="p-10 bg-[#1A1112]/60 backdrop-blur-xl border-t border-white/5 flex gap-6 z-20">
+          <div className="flex-1 relative group">
             <Input
-              placeholder="Transpose your thoughts..."
+              placeholder="Transpose your thoughts into the void..."
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-              className="h-16 bg-[#1A1112] border-white/5 text-[#FDF5E6] focus:ring-[#E5C07B]/20 rounded-2xl px-8 text-sm italic pr-16"
+              className="h-20 bg-[#120A0B] border-white/5 text-[#FDF5E6] focus:ring-[#E5C07B]/30 rounded-[1.5rem] px-10 text-base italic serif shadow-inner placeholder:text-[#FDF5E6]/5 transition-all group-hover:border-[#E5C07B]/10"
             />
             <Button
               onClick={handleSendMessage}
-              disabled={!inputMessage.trim()}
-              className="absolute right-2 top-2 h-12 w-12 bg-[#E5C07B] hover:bg-[#d4b16a] text-[#2D1417] rounded-xl shadow-lg transition-transform hover:scale-105"
+              disabled={!inputMessage.trim() || isTyping}
+              className="absolute right-3 top-3 h-14 px-8 bg-[#E5C07B] hover:bg-[#d4b16a] text-[#120A0B] rounded-xl shadow-2xl transition-all duration-700 font-black uppercase tracking-[0.3em] text-[11px] disabled:opacity-20 relative overflow-hidden group/btn"
             >
-              <Send className="h-5 w-5" />
+              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity" />
+              <div className="flex items-center gap-3 relative z-10">
+                <span>Transmit</span>
+                <Send className="h-5 w-5" />
+              </div>
             </Button>
           </div>
-          <Button variant="ghost" size="icon" className="h-16 w-16 bg-white/5 text-[#E5C07B] hover:bg-[#E5C07B]/10 rounded-2xl ring-1 ring-[#E5C07B]/10">
-            <Mic className="h-6 w-6" />
+          <Button variant="ghost" size="icon" className="h-20 w-20 bg-[#120A0B] text-[#E5C07B] hover:bg-[#E5C07B]/5 rounded-[1.5rem] ring-1 ring-white/5 shadow-2xl transition-all group">
+            <Mic className="h-7 w-7 group-hover:scale-110 transition-transform duration-700" />
           </Button>
         </div>
       </Card>

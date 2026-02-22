@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
 import { Button } from "@/app/components/ui/button";
-import { Progress } from "@/app/components/ui/progress";
+import { motion } from "framer-motion";
+import { cn } from "@/app/components/ui/utils";
 import {
   MessageCircle,
-  Heart,
   Smile,
   Meh,
   Frown,
   ArrowRight,
-  Users,
   Target,
   FileText,
   LayoutDashboard
@@ -109,88 +108,130 @@ export function DashboardOverview({ setActiveSection }: DashboardOverviewProps) 
 
   return (
     <div className="space-y-12 pb-12">
-      {/* Hero Header - Refined structural design */}
-      <div className="relative overflow-hidden rounded-2xl bg-[#3D181C] p-12 ring-1 ring-[#E5C07B]/10 shadow-none">
-        <div className="relative z-10">
-          <Badge className="bg-[#E5C07B] text-[#2D1417] font-bold px-3 py-1 mb-8 border-none shadow-sm uppercase tracking-[0.2em] text-[10px]">Premium Sequence</Badge>
-          <h2 className="text-4xl font-bold text-[#FDF5E6] mb-4 serif leading-tight tracking-tight">Personal <span className="text-[#E5C07B] italic">Sanctuary</span></h2>
-          <p className="text-[#FDF5E6]/40 text-base max-w-xl font-medium leading-relaxed italic">
-            "The architecture of the mind is best refined in moments of absolute stillness and premium care."
-          </p>
+      {/* Hero Header - Deepened Richness */}
+      <div className="relative overflow-hidden rounded-[2.5rem] bg-[#120A0B] p-16 ring-1 ring-[#E5C07B]/10 shadow-[0_40px_100px_rgba(0,0,0,0.6)]">
+        {/* Deep Wine Glow */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#E5C07B]/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#2D1417]/40 blur-[100px] rounded-full -translate-x-1/2 translate-y-1/2 pointer-events-none" />
+
+        <div className="relative z-10 space-y-8">
+          <div className="flex items-center gap-4">
+            <Badge className="bg-[#E5C07B] text-[#120A0B] font-black px-4 py-1.5 border-none shadow-[0_0_20px_rgba(229,192,123,0.3)] uppercase tracking-[0.3em] text-[10px]">Premium Entity</Badge>
+            <span className="h-[1px] w-12 bg-[#E5C07B]/20" />
+            <span className="text-[10px] font-black text-[#FDF5E6]/20 uppercase tracking-[0.4em]">Sequence Alpha-2026</span>
+          </div>
+
+          <div className="space-y-4">
+            <h2 className="text-6xl font-extrabold text-[#FDF5E6] serif leading-tight tracking-tighter">
+              The <span className="text-[#E5C07B] italic">Sanctuary</span> <br />
+              <span className="text-4xl opacity-80">of Presence</span>
+            </h2>
+            <p className="text-[#FDF5E6]/40 text-lg max-w-2xl font-medium leading-relaxed italic border-l-2 border-[#E5C07B]/20 pl-8">
+              "True luxury is found in the calibrated silence of the mind, where every resonance is curated and every sequence is precise."
+            </p>
+          </div>
+
+          <div className="flex gap-4 pt-4">
+            <Button className="bg-[#E5C07B] hover:bg-[#d4b16a] text-[#120A0B] h-14 px-8 rounded-2xl font-black uppercase tracking-[0.2em] text-[11px] transition-transform hover:scale-105 active:scale-95">
+              Initiate Sequence
+            </Button>
+            <Button variant="outline" className="border-[#E5C07B]/10 bg-white/5 text-[#E5C07B] hover:bg-[#E5C07B]/5 h-14 px-8 rounded-2xl font-black uppercase tracking-[0.2em] text-[11px] backdrop-blur-md">
+              View Diagnostics
+            </Button>
+          </div>
         </div>
-        <div className="absolute top-0 right-0 p-12 opacity-[0.03] scale-150 rotate-12 select-none pointer-events-none">
-          <LayoutDashboard className="h-64 w-64 text-[#E5C07B]" />
+
+        <div className="absolute top-0 right-0 p-16 opacity-[0.05] scale-125 rotate-6 select-none pointer-events-none transition-all duration-1000">
+          <LayoutDashboard className="h-96 w-96 text-[#E5C07B]" />
         </div>
+
+        <div className="absolute inset-0 bg-noise opacity-[0.02] pointer-events-none" />
       </div>
 
       {/* Global Health Index */}
       <HealthAnalytics />
 
-      {/* Therapy Summaries - Functional Block */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between px-2">
-          <h3 className="text-xl font-bold text-[#FDF5E6] serif tracking-tight">Archives of Repose</h3>
-          <Button variant="ghost" size="sm" onClick={() => setActiveSection('summaries')} className="text-[#E5C07B] font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-[#E5C07B]/5 px-4 h-9">
-            Examine All <ArrowRight className="ml-2 h-3.5 w-3.5" />
+      {/* Therapy Summaries - Opulent Archives */}
+      <div className="space-y-8">
+        <div className="flex items-center justify-between px-6">
+          <div className="flex flex-col">
+            <h3 className="text-2xl font-bold text-[#FDF5E6] serif tracking-tight">Archives of Repose</h3>
+            <span className="text-[9px] font-black text-[#E5C07B]/40 uppercase tracking-[0.4em] mt-1">Historical Sequence Synthesis</span>
+          </div>
+          <Button variant="ghost" size="sm" onClick={() => setActiveSection('summaries')} className="text-[#E5C07B]/60 hover:text-[#E5C07B] font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-white/5 px-6 h-11 rounded-xl ring-1 ring-[#E5C07B]/5">
+            Examine archives <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
 
-        <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
           {recentSessions.length > 0 ? (
             recentSessions.map((session) => (
-              <Card key={session.id} className="border-0 bg-[#3D181C] overflow-hidden group hover:ring-[#E5C07B]/20 transition-all rounded-2xl ring-1 ring-[#E5C07B]/10">
-                <CardHeader className="bg-[#2D1417]/20 pb-4 px-6 pt-6">
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center gap-2">
-                      <FileText className="h-4 w-4 text-[#E5C07B]/40" />
-                      <span className="text-[10px] font-bold text-[#FDF5E6]/40 uppercase tracking-[0.2em]">
+              <Card key={session.id} className="border-0 bg-[#1A1112] overflow-hidden group hover:ring-[#E5C07B]/30 transition-all rounded-[2rem] ring-1 ring-[#E5C07B]/10 shadow-2xl relative">
+                {/* Subtle Card Glow */}
+                <div className="absolute -inset-1 bg-gradient-to-tr from-[#E5C07B]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+                <CardHeader className="bg-[#2D1417]/10 pb-6 px-8 pt-8 border-b border-white/5">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                      <div className="h-8 w-8 rounded-lg bg-[#E5C07B]/5 flex items-center justify-center ring-1 ring-[#E5C07B]/20">
+                        <FileText className="h-4 w-4 text-[#E5C07B]" />
+                      </div>
+                      <span className="text-[10px] font-black text-[#FDF5E6]/20 uppercase tracking-[0.3em]">
                         {formatDate(session.started_at)}
                       </span>
                     </div>
-                    <Badge variant="outline" className="border-[#E5C07B]/20 text-[#E5C07B] text-[10px] uppercase font-bold tracking-widest px-2">
-                      {session.duration_minutes}m
+                    <Badge className="bg-[#120A0B]/60 text-[#E5C07B] border border-[#E5C07B]/20 text-[9px] font-black tracking-widest px-3 py-1">
+                      {session.duration_minutes} MINS
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="p-6 pb-8">
-                  <p className="text-sm text-[#FDF5E6]/60 line-clamp-2 mb-8 font-medium leading-relaxed italic">
-                    "{session.summary || "No summary available for this session."}"
+                <CardContent className="p-8 pb-10 relative z-10">
+                  <p className="text-base text-[#FDF5E6]/50 line-clamp-3 mb-10 font-medium leading-relaxed italic">
+                    "{session.summary || "The summary for this energetic transition remains unsequenced."}"
                   </p>
-                  <Button variant="ghost" size="sm" className="w-full justify-between text-[#E5C07B] hover:text-[#E5C07B] hover:bg-[#E5C07B]/5 font-bold uppercase tracking-[0.2em] text-[10px] p-0 h-auto">
-                    View Archival Records
-                    <ArrowRight className="h-3 w-3" />
+                  <Button variant="ghost" className="w-full justify-between text-[#E5C07B] hover:text-[#E5C07B] hover:bg-[#E5C07B]/5 font-black uppercase tracking-[0.2em] text-[10px] p-0 h-auto group/btn">
+                    Examine Sequence Detail
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                   </Button>
                 </CardContent>
               </Card>
             ))
           ) : (
-            <div className="lg:col-span-3 py-24 text-center bg-[#3D181C]/20 rounded-2xl ring-1 ring-[#E5C07B]/5 border-none">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#E5C07B]/5 mx-auto mb-8">
-                <FileText className="h-8 w-8 text-[#E5C07B]/20" />
+            <div className="lg:col-span-3 py-32 text-center bg-[#1A1112]/40 rounded-[2.5rem] ring-1 ring-[#E5C07B]/10 border-none relative overflow-hidden group hover:ring-[#E5C07B]/20 transition-all">
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#E5C07B]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+              <div className="relative z-10">
+                <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-[#E5C07B]/5 mx-auto mb-10 ring-1 ring-[#E5C07B]/20 shadow-2xl">
+                  <FileText className="h-8 w-8 text-[#E5C07B]/40" />
+                </div>
+                <h4 className="text-[#FDF5E6]/40 font-black uppercase tracking-[0.4em] text-xs mb-12">The Archives are Void</h4>
+                <Button
+                  variant="outline"
+                  className="mt-10 border-[#E5C07B]/20 text-[#E5C07B] hover:bg-[#E5C07B]/10 rounded-2xl font-black uppercase tracking-[0.3em] text-[11px] h-16 px-12 shadow-none ring-1 ring-[#E5C07B]/10 hover:ring-[#E5C07B]/40 transition-all bg-[#120A0B]/60 backdrop-blur-lg"
+                  onClick={() => setActiveSection('therapist')}
+                >
+                  Initiate Primordial Link
+                </Button>
               </div>
-              <p className="text-[#FDF5E6]/40 font-bold uppercase tracking-[0.2em] text-xs">No records found</p>
-              <Button
-                variant="outline"
-                className="mt-10 border-[#E5C07B]/20 text-[#E5C07B] hover:bg-[#E5C07B]/5 rounded-xl font-bold uppercase tracking-[0.2em] text-[10px] h-12 px-10 shadow-none ring-1 ring-[#E5C07B]/10 hover:ring-[#E5C07B]/30 transition-all"
-                onClick={() => setActiveSection('therapist')}
-              >
-                Initiate First Session
-              </Button>
             </div>
           )}
         </div>
       </div>
 
       {/* Refined Luxury Hero Stats */}
-      <section aria-label="Welcome and statistics" className="bg-[#1A1112] rounded-2xl p-12 text-white relative overflow-hidden ring-1 ring-[#E5C07B]/10 shadow-none">
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-12">
-          <div className="max-w-xl">
-            <div className="flex items-center gap-3 mb-8">
-              <Badge className="bg-[#E5C07B] text-[#1A1112] border-none font-bold px-3 py-0.5 text-[9px] tracking-widest uppercase">Member</Badge>
-              <span className="text-[10px] font-bold text-white/20 tracking-[0.3em] uppercase">Alex Sequence 2024</span>
+      <section aria-label="Welcome and statistics" className="bg-[#120A0B] rounded-[2.5rem] p-16 text-white relative overflow-hidden ring-1 ring-[#E5C07B]/10 shadow-[0_30px_70px_rgba(0,0,0,0.5)]">
+        {/* Subtle Glows */}
+        <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-[#E5C07B]/5 blur-[80px] rounded-full -translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[200px] h-[200px] bg-[#2D1417]/30 blur-[60px] rounded-full translate-x-1/3 translate-y-1/3 pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-16">
+          <div className="max-w-xl space-y-6">
+            <div className="flex items-center gap-4">
+              <Badge className="bg-[#E5C07B] text-[#120A0B] border-none font-black px-4 py-1.5 text-[10px] tracking-widest uppercase shadow-[0_0_20px_rgba(229,192,123,0.3)]">Member</Badge>
+              <span className="h-[1px] w-12 bg-[#E5C07B]/20" />
+              <span className="text-[10px] font-black text-[#FDF5E6]/20 tracking-[0.4em] uppercase">Alex Sequence 2024</span>
             </div>
-            <h2 className="text-3xl font-bold mb-6 serif tracking-tight">The Path to <span className="text-[#E5C07B] italic">Equilibrium</span></h2>
-            <p className="text-[#FDF5E6]/40 text-base leading-relaxed font-medium italic">
+            <h2 className="text-4xl font-extrabold serif tracking-tight leading-tight">The Path to <span className="text-[#E5C07B] italic">Equilibrium</span></h2>
+            <p className="text-[#FDF5E6]/50 text-lg leading-relaxed font-medium italic border-l-2 border-[#E5C07B]/20 pl-8">
               {streak > 0
                 ? `Your dedicated focus has sustained a ${streak}-day sanctuary. Every moment defines your path to mastery.`
                 : 'The first step is often the most profound. Begin your premium wellness sequence today.'}
@@ -221,25 +262,31 @@ export function DashboardOverview({ setActiveSection }: DashboardOverviewProps) 
         </div>
       </section>
 
-      {/* Quick Actions - Structural Grid */}
-      <section aria-label="Quick actions" className="space-y-8">
-        <h3 className="text-xl font-bold text-[#FDF5E6] px-2 serif tracking-tight">Premium Services</h3>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Quick Actions - Opulent Grid */}
+      <section aria-label="Quick actions" className="space-y-10">
+        <div className="flex flex-col px-6">
+          <h3 className="text-2xl font-bold text-[#FDF5E6] serif tracking-tight">Premium Services</h3>
+          <span className="text-[9px] font-black text-[#E5C07B]/40 uppercase tracking-[0.4em] mt-1">Direct Sequence Access</span>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {QUICK_ACTIONS.map((action, index) => (
             <Card
               key={index}
               onClick={() => setActiveSection(action.action)}
-              className="cursor-pointer hover:bg-[#E5C07B]/5 transition-all border-0 bg-[#3D181C] ring-1 ring-[#E5C07B]/10 rounded-2xl group focus:outline-none focus:ring-2 focus:ring-[#E5C07B]/20 shadow-none hover:shadow-2xl hover:shadow-black/40 overflow-hidden"
+              className="cursor-pointer bg-[#1A1112] hover:bg-[#120A0B] transition-all duration-500 border-0 ring-1 ring-[#E5C07B]/10 rounded-[2rem] group overflow-hidden shadow-2xl relative"
             >
-              <CardContent className="p-8">
+              {/* Luxury Hover Glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#E5C07B]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+              <CardContent className="p-10 relative z-10">
                 <div
-                  className="h-11 w-11 rounded-xl flex items-center justify-center mb-8 shadow-sm transition-all bg-[#2D1417]/40 ring-1 ring-white/5 group-hover:ring-[#E5C07B]/30"
+                  className="h-14 w-14 rounded-2xl flex items-center justify-center mb-10 shadow-2xl transition-all bg-[#120A0B] ring-1 ring-white/5 group-hover:ring-[#E5C07B]/40 group-hover:scale-110 duration-500"
                   style={{ color: action.color }}
                 >
-                  <action.icon className="h-5 w-5" />
+                  <action.icon className="h-6 w-6" />
                 </div>
-                <h4 className="text-lg font-bold text-[#FDF5E6] mb-3 serif tracking-tight">{action.title}</h4>
-                <p className="text-xs text-[#FDF5E6]/40 leading-relaxed font-medium uppercase tracking-widest">{action.description}</p>
+                <h4 className="text-xl font-bold text-[#FDF5E6] mb-4 serif tracking-tight">{action.title}</h4>
+                <p className="text-[10px] text-[#FDF5E6]/30 leading-relaxed font-black uppercase tracking-[0.2em]">{action.description}</p>
               </CardContent>
             </Card>
           ))}
